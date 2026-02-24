@@ -1,0 +1,194 @@
+# Nodo de la lista enlazada
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class LinkedList:
+    
+    # initial_elements: allow the collection to start with some elements
+    def __init__(self, initial_elements=None):
+        self.head = None
+        self.length = 0
+        
+        if initial_elements is not None:
+            for element in initial_elements:
+                self.append(element)
+    
+    
+    # return an str of the collection
+    def __str__(self):
+        elements = []
+        current = self.head
+        
+        while current is not None:
+            elements.append(current.data)
+            current = current.next
+        
+        return str(elements)
+    
+    
+    # return the length of the elements in the collection
+    def __len__(self):
+        return self.length
+    
+    
+    # return the element of the collection in the index possition
+    # Error: the index dont exist
+    def __getitem__(self, index):
+        if index < 0 or index >= self.length:
+            raise IndexError("Index does not exist")
+        
+        current = self.head
+        count = 0
+        
+        while count < index:
+            current = current.next
+            count += 1
+        
+        return current.data
+    
+
+    # return a boolean that implies if the collection is empty or not
+    def isEmpty(self):
+        if self.length == 0:
+            return True
+        else:
+            return False
+    
+    
+    # allow the collection to be called in a for loop
+    def __iter__(self):
+        current = self.head
+        while current is not None:
+            yield current.data
+            current = current.next
+    
+    
+    # return a boolean value representing the existence of an element in the collection
+    def __contains__(self, element):
+        current = self.head
+        
+        while current is not None:
+            if current.data == element:
+                return True
+            current = current.next
+        
+        return False
+    
+    
+    # add the element to the end of the collection
+    def append(self, element):
+        new_node = Node(element)
+        
+        if self.head is None:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next is not None:
+                current = current.next
+            current.next = new_node
+        
+        self.length += 1
+    
+    
+    # add the element to the collection at the requested index
+    # Error: non existing index in the collection
+    def insert(self, index, element):
+        if index < 0 or index > self.length:
+            raise IndexError("Index does not exist")
+        
+        new_node = Node(element)
+        
+        if index == 0:
+            new_node.next = self.head
+            self.head = new_node
+        else:
+            current = self.head
+            count = 0
+            
+            while count < index - 1:
+                current = current.next
+                count += 1
+            
+            new_node.next = current.next
+            current.next = new_node
+        
+        self.length += 1
+    
+    
+    # remove an element in the collection by its value
+    # Error: the element dont exist in the collection
+    def remove(self, element):
+        if self.head is None:
+            raise ValueError("Element does not exist")
+        
+        if self.head.data == element:
+            self.head = self.head.next
+            self.length -= 1
+            return
+        
+        current = self.head
+        
+        while current.next is not None:
+            if current.next.data == element:
+                current.next = current.next.next
+                self.length -= 1
+                return
+            current = current.next
+        
+        raise ValueError("Element does not exist")
+    
+    
+    # remove and return the element in the collection by its index
+    def pop(self, index):
+        if index < 0 or index >= self.length:
+            raise IndexError("Index does not exist")
+        
+        if index == 0:
+            value = self.head.data
+            self.head = self.head.next
+            self.length -= 1
+            return value
+        
+        current = self.head
+        count = 0
+        
+        while count < index - 1:
+            current = current.next
+            count += 1
+        
+        value = current.next.data
+        current.next = current.next.next
+        self.length -= 1
+        return value
+    
+    
+    # remove all elements in the collection
+    def clear(self):
+        self.head = None
+        self.length = 0
+
+#Propar que si funcina el codigo
+
+lista = LinkedList([1, 2, 3])
+
+print(lista)
+lista.append(4)
+print(lista)
+
+lista.insert(1, 100)
+print(lista)
+
+lista.remove(2)
+print(lista)
+
+print(lista.pop(0))
+print(lista)
+
+for x in lista:
+    print(x)
+
+lista.clear()
+print(lista)
