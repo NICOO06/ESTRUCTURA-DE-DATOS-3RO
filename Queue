@@ -1,0 +1,44 @@
+class Queue:
+    
+    # Constructor
+    def __init__(self, initial_elements=None):
+        if initial_elements is None:
+            self.elements = []
+        else:
+            self.elements = list(initial_elements)
+    
+    # Representación en texto
+    def __str__(self):
+        return str(self.elements)
+    
+    # Longitud
+    def __len__(self):
+        return len(self.elements)
+    
+    # Verifica si está vacía
+    def isEmpty(self):
+        return len(self.elements) == 0
+    
+    # Ver el primer elemento (el siguiente en salir)
+    def peek(self):
+        if self.isEmpty():
+            return None
+        return self.elements[0]
+    
+    # Permite recorrer con for
+    def __iter__(self):
+        return iter(self.elements)
+    
+    # Permite usar "in"
+    def __contains__(self, element):
+        return element in self.elements
+    
+    # Agregar elemento (enqueue)
+    def push(self, element):
+        self.elements.append(element)
+    
+    # Eliminar elemento (dequeue)
+    def pop(self, index=0):
+        if self.isEmpty():
+            return None
+        return self.elements.pop(index)
